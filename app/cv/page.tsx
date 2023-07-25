@@ -1,7 +1,9 @@
+import styles from "../page.module.css";
+
 export default function CV() {
-    return (
-      <main>
-          <h1>Hello CV</h1>
-      </main>
-    )
-  }
+  return (
+    <div className={styles.description}>
+      <h1>CV</h1>
+    </div>
+  );
+}

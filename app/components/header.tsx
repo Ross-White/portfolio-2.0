@@ -2,10 +2,10 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <div>
-      <header>
-        <Link href="/">This is a link</Link>
-      </header>
-    </div>
+    <header>
+      <Link href="/">Home</Link>
+      <Link href="/about">About</Link>
+      <Link href="/cv">CV</Link>
+    </header>
   );
 }
