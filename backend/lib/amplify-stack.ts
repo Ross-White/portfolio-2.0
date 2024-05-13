@@ -1,6 +1,6 @@
 import * as cdk from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
-import * as amplify from '@aws-cdk/aws-amplify';
+import * as amplify from '@aws-cdk/aws-amplify-alpha'
 
 export class AmplifyStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
