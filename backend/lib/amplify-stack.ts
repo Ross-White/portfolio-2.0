@@ -19,6 +19,10 @@ export class AmplifyStack extends cdk.Stack {
       assumedBy: new iam.ServicePrincipal('amplify.amazonaws.com'),
       description: 'Custom role permitting resources creation from Amplify',
     });
-    amplifyDeploymentRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
+    amplifyDeploymentRole.addToPolicy(new iam.PolicyStatement({
+      actions: ['sts:AssumeRole'],
+      effect: iam.Effect.ALLOW,
+      resources: ['*'],
+    }))
   }
 }
