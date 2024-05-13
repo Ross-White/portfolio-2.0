@@ -29,6 +29,7 @@ jobs:
         run: npm run build
 
       - name: Deploy with AWS CDK
+        working-directory: backend/
         run: |
           npm run cdk deploy
         env:
