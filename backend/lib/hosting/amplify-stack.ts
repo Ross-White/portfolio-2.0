@@ -15,6 +15,10 @@ export class AmplifyStack extends cdk.Stack {
         oauthToken: cdk.SecretValue.secretsManager('github-token')
       })
     });
+    
+    amplifyApp.addBranch('master', {
+      stage: 'PRODUCTION',
+    });
 
     const amplifyDeploymentRole = new iam.Role(this, 'AmplifyRoleWebApp', {
       assumedBy: new iam.ServicePrincipal('amplify.amazonaws.com'),
