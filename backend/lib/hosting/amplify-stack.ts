@@ -53,7 +53,7 @@ export class AmplifyStack extends cdk.Stack {
 
     amplifyApp.addBranch('master', {
       stage: 'PRODUCTION',
-      autoBuild: false
+      autoBuild: true
     });
   }
 }
