@@ -41,7 +41,7 @@ export class AmplifyStack extends cdk.Stack {
             },
           },
           artifacts: {
-            baseDirectory: 'frontent/.next',
+            baseDirectory: 'frontend/.next',
             files: ['**/*'],
           },
           cache: {
