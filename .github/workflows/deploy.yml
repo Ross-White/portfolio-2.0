@@ -33,7 +33,7 @@ jobs:
       - name: Deploy with AWS CDK
         working-directory: backend/
         run: |
-          npm run cdk deploy
+          npm run cdk deploy --all
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
