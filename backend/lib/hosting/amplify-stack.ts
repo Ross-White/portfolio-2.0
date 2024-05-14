@@ -67,7 +67,7 @@ export class AmplifyStack extends cdk.Stack {
 
     const mainBranch = amplifyApp.addBranch('master', {
       stage: 'PRODUCTION',
-      autoBuild: false
+      autoBuild: true
     });
 
     const cfnBranch = mainBranch.node.defaultChild as CfnBranch;
