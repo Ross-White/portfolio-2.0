@@ -12,11 +12,21 @@ export class AmplifyStack extends cdk.Stack {
       description: 'Custom role permitting resources creation from Amplify',
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess-Amplify')],
     });
-    // role.addToPolicy(new iam.PolicyStatement({
-    //   actions: ['sts:AssumeRole'],
-    //   effect: iam.Effect.ALLOW,
-    //   resources: ['*'],
-    // }))
+    const amplifyPolicy = new iam.Policy(this, 'AmplifyPolicy', {
+      statements: [
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: [
+            'amplify:CreateApp',
+            'amplify:UpdateApp',
+            'amplify:CreateBackendEnvironment',
+            'sts:AssumeRole'
+          ],
+          resources: ['*']
+        })
+      ]
+    })
+    role.attachInlinePolicy(amplifyPolicy)
 
     const sourceCodeProvider = new amplify.GitHubSourceCodeProvider({
       owner: 'Ross-White',
