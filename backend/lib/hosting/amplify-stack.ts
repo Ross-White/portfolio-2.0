@@ -40,26 +40,26 @@ export class AmplifyStack extends cdk.Stack {
       autoBranchDeletion: true,
       sourceCodeProvider,
       role,
-      buildSpec: cdk.aws_codebuild.BuildSpec.fromObjectToYaml({
-        version: 1,
-        frontend: {
-          phases: {
-            preBuild: {
-              commands: ['npm ci'],
-            },
-            build: {
-              commands: ['npm run build'],
-            },
-          },
-          artifacts: {
-            baseDirectory: 'frontend/.next',
-            files: ['**/*'],
-          },
-          cache: {
-            paths: ['node_modules/**/*'],
-          },
-        },
-      })
+      // buildSpec: cdk.aws_codebuild.BuildSpec.fromObjectToYaml({
+      //   version: 1,
+      //   frontend: {
+      //     phases: {
+      //       preBuild: {
+      //         commands: ['npm ci'],
+      //       },
+      //       build: {
+      //         commands: ['npm run build'],
+      //       },
+      //     },
+      //     artifacts: {
+      //       baseDirectory: 'frontend/.next',
+      //       files: ['**/*'],
+      //     },
+      //     cache: {
+      //       paths: ['node_modules/**/*'],
+      //     },
+      //   },
+      // })
     });
 
     const cfnApp = amplifyApp.node.defaultChild as CfnApp
