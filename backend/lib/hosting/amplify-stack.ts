@@ -26,8 +26,29 @@ export class AmplifyStack extends cdk.Stack {
 
     const amplifyApp = new amplify.App(this, 'Portfolio-2.0', {
       appName: 'Portfolio2.0',
+      autoBranchDeletion: true,
       sourceCodeProvider,
-      role
+      role,
+      buildSpec: cdk.aws_codebuild.BuildSpec.fromObjectToYaml({
+        version: 1,
+        frontend: {
+          phases: {
+            preBuild: {
+              commands: ['npm ci'],
+            },
+            build: {
+              commands: ['npm run build'],
+            },
+          },
+          artifacts: {
+            baseDirectory: 'frontent/.next',
+            files: ['**/*'],
+          },
+          cache: {
+            paths: ['node_modules/**/*'],
+          },
+        },
+      })
     });
 
     amplifyApp.addBranch('master', {
