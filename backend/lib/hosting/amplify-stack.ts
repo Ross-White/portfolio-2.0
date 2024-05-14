@@ -7,8 +7,8 @@ export class AmplifyStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const role = new iam.Role(this, 'AmplifyRoleWebApp', {
-      assumedBy: new iam.ServicePrincipal('amplify.amazonaws.com'),
+    const role = new iam.Role(this, 'AmplifyDeploymentRole', {
+      assumedBy: new iam.ServicePrincipal('amplify.eu-west-2.amazonaws.com'),
       description: 'Custom role permitting resources creation from Amplify',
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess-Amplify')],
     });
@@ -29,26 +29,26 @@ export class AmplifyStack extends cdk.Stack {
       autoBranchDeletion: true,
       sourceCodeProvider,
       role,
-      buildSpec: cdk.aws_codebuild.BuildSpec.fromObjectToYaml({
-        version: 1,
-        frontend: {
-          phases: {
-            preBuild: {
-              commands: ['npm ci'],
-            },
-            build: {
-              commands: ['npm run build'],
-            },
-          },
-          artifacts: {
-            baseDirectory: 'frontend/.next',
-            files: ['**/*'],
-          },
-          cache: {
-            paths: ['node_modules/**/*'],
-          },
-        },
-      })
+      // buildSpec: cdk.aws_codebuild.BuildSpec.fromObjectToYaml({
+      //   version: 1,
+      //   frontend: {
+      //     phases: {
+      //       preBuild: {
+      //         commands: ['npm ci'],
+      //       },
+      //       build: {
+      //         commands: ['npm run build'],
+      //       },
+      //     },
+      //     artifacts: {
+      //       baseDirectory: 'frontend/.next',
+      //       files: ['**/*'],
+      //     },
+      //     cache: {
+      //       paths: ['node_modules/**/*'],
+      //     },
+      //   },
+      // })
     });
 
     amplifyApp.addBranch('master', {
