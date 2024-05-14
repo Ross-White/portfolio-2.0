@@ -8,15 +8,15 @@ export class AmplifyStack extends cdk.Stack {
     super(scope, id, props);
 
     const role = new iam.Role(this, 'AmplifyDeploymentRole', {
-      assumedBy: new iam.ServicePrincipal('amplify.eu-west-2.amazonaws.com'),
+      assumedBy: new iam.ServicePrincipal('amplify.amazonaws.com'),
       description: 'Custom role permitting resources creation from Amplify',
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess-Amplify')],
     });
-    role.addToPolicy(new iam.PolicyStatement({
-      actions: ['sts:AssumeRole'],
-      effect: iam.Effect.ALLOW,
-      resources: ['*'],
-    }))
+    // role.addToPolicy(new iam.PolicyStatement({
+    //   actions: ['sts:AssumeRole'],
+    //   effect: iam.Effect.ALLOW,
+    //   resources: ['*'],
+    // }))
 
     const sourceCodeProvider = new amplify.GitHubSourceCodeProvider({
       owner: 'Ross-White',
