@@ -1,5 +1,6 @@
 {
   "app": "npx ts-node --prefer-ts-exts bin/amplify.ts",
+  "requireApproval": "never",
   "watch": {
     "include": [
       "**"
