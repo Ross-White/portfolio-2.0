@@ -30,7 +30,7 @@ export class AmplifyStack extends cdk.Stack {
     });
 
     amplifyApp.addBranch('master', {
-      stage: 'prod',
+      stage: 'PRODUCTION',
     });
   }
 }
