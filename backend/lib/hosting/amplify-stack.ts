@@ -7,16 +7,16 @@ export class AmplifyStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // const role = new iam.Role(this, 'AmplifyRoleWebApp', {
-    //   assumedBy: new iam.ServicePrincipal('amplify.amazonaws.com'),
-    //   description: 'Custom role permitting resources creation from Amplify',
-    //   managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess-Amplify')],
-    // });
-    // role.addToPolicy(new iam.PolicyStatement({
-    //   actions: ['sts:AssumeRole'],
-    //   effect: iam.Effect.ALLOW,
-    //   resources: ['*'],
-    // }))
+    const role = new iam.Role(this, 'AmplifyRoleWebApp', {
+      assumedBy: new iam.ServicePrincipal('amplify.amazonaws.com'),
+      description: 'Custom role permitting resources creation from Amplify',
+      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess-Amplify')],
+    });
+    role.addToPolicy(new iam.PolicyStatement({
+      actions: ['sts:AssumeRole'],
+      effect: iam.Effect.ALLOW,
+      resources: ['*'],
+    }))
 
     const sourceCodeProvider = new amplify.GitHubSourceCodeProvider({
       owner: 'Ross-White',
@@ -26,11 +26,13 @@ export class AmplifyStack extends cdk.Stack {
 
     const amplifyApp = new amplify.App(this, 'Portfolio-2.0', {
       appName: 'Portfolio2.0',
-      sourceCodeProvider
+      sourceCodeProvider,
+      role
     });
 
     amplifyApp.addBranch('master', {
       stage: 'PRODUCTION',
+      autoBuild: false
     });
   }
 }
