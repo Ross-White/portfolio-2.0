@@ -4,6 +4,6 @@ import * as cdk from 'aws-cdk-lib';
 import { AmplifyStack } from '../lib/hosting/amplify-stack';
 
 const app = new cdk.App();
-new AmplifyStack(app, 'BackendStack', {
+new AmplifyStack(app, 'AmplifyHostingStack', {
   description: 'Personal portfolio deployed with Amplify'
 });

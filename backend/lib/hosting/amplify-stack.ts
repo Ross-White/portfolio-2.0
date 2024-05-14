@@ -2,6 +2,8 @@ import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as amplify from '@aws-cdk/aws-amplify-alpha'
+import { CfnApp, CfnBranch } from 'aws-cdk-lib/aws-amplify';
+import { CfnOutput } from 'aws-cdk-lib';
 
 export class AmplifyStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -60,9 +62,20 @@ export class AmplifyStack extends cdk.Stack {
       })
     });
 
-    amplifyApp.addBranch('master', {
+    const cfnApp = amplifyApp.node.defaultChild as CfnApp
+    cfnApp.platform = 'WEB_COMPUTE';
+
+    const mainBranch = amplifyApp.addBranch('master', {
       stage: 'PRODUCTION',
       autoBuild: false
     });
+
+    const cfnBranch = mainBranch.node.defaultChild as CfnBranch;
+    cfnBranch.framework = 'Next.js - SSR';
+
+    new CfnOutput(this, 'appId', {
+      value: amplifyApp.appId,
+    });
+   
   }
 }
