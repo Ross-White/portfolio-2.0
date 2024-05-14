@@ -4,6 +4,7 @@ import * as iam from 'aws-cdk-lib/aws-iam'
 import * as amplify from '@aws-cdk/aws-amplify-alpha'
 import { CfnApp, CfnBranch } from 'aws-cdk-lib/aws-amplify';
 import { CfnOutput } from 'aws-cdk-lib';
+import * as codebuild from 'aws-cdk-lib/aws-codebuild'
 
 export class AmplifyStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -40,38 +41,34 @@ export class AmplifyStack extends cdk.Stack {
       autoBranchDeletion: true,
       sourceCodeProvider,
       role,
-      // buildSpec: cdk.aws_codebuild.BuildSpec.fromObjectToYaml({
-      //   version: 1,
-      //   frontend: {
-      //     phases: {
-      //       preBuild: {
-      //         commands: ['npm ci'],
-      //       },
-      //       build: {
-      //         commands: ['npm run build'],
-      //       },
-      //     },
-      //     artifacts: {
-      //       baseDirectory: 'frontend/.next',
-      //       files: ['**/*'],
-      //     },
-      //     cache: {
-      //       paths: ['node_modules/**/*'],
-      //     },
-      //   },
-      // })
+      buildSpec: codebuild.BuildSpec.fromObjectToYaml({
+        version: 1,
+        frontend: {
+          phases: {
+            preBuild: {
+              commands: ['npm ci'],
+            },
+            build: {
+              commands: ['npm run build'],
+            },
+          },
+          artifacts: {
+            baseDirectory: 'frontend/.next',
+            files: ['**/*'],
+          },
+          cache: {
+            paths: ['node_modules/**/*'],
+          },
+        },
+      })
+    });
+
+    amplifyApp.addBranch('master', {
+      stage: 'PRODUCTION',
     });
 
     const cfnApp = amplifyApp.node.defaultChild as CfnApp
     cfnApp.platform = 'WEB_COMPUTE';
-
-    const mainBranch = amplifyApp.addBranch('master', {
-      stage: 'PRODUCTION',
-      autoBuild: true
-    });
-
-    const cfnBranch = mainBranch.node.defaultChild as CfnBranch;
-    cfnBranch.framework = 'Next.js - SSR';
 
     new CfnOutput(this, 'appId', {
       value: amplifyApp.appId,
