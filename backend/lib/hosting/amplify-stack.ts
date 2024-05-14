@@ -9,8 +9,7 @@ export class AmplifyStack extends cdk.Stack {
 
     const role = new iam.Role(this, 'AmplifyDeploymentRole', {
       assumedBy: new iam.ServicePrincipal('amplify.amazonaws.com'),
-      description: 'Custom role permitting resources creation from Amplify',
-      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess-Amplify')],
+      description: 'Custom role permitting resources creation from Amplify'
     });
     const amplifyPolicy = new iam.Policy(this, 'AmplifyPolicy', {
       statements: [
@@ -39,31 +38,31 @@ export class AmplifyStack extends cdk.Stack {
       autoBranchDeletion: true,
       sourceCodeProvider,
       role,
-      // buildSpec: cdk.aws_codebuild.BuildSpec.fromObjectToYaml({
-      //   version: 1,
-      //   frontend: {
-      //     phases: {
-      //       preBuild: {
-      //         commands: ['npm ci'],
-      //       },
-      //       build: {
-      //         commands: ['npm run build'],
-      //       },
-      //     },
-      //     artifacts: {
-      //       baseDirectory: 'frontend/.next',
-      //       files: ['**/*'],
-      //     },
-      //     cache: {
-      //       paths: ['node_modules/**/*'],
-      //     },
-      //   },
-      // })
+      buildSpec: cdk.aws_codebuild.BuildSpec.fromObjectToYaml({
+        version: 1,
+        frontend: {
+          phases: {
+            preBuild: {
+              commands: ['npm ci'],
+            },
+            build: {
+              commands: ['npm run build'],
+            },
+          },
+          artifacts: {
+            baseDirectory: 'frontend/.next',
+            files: ['**/*'],
+          },
+          cache: {
+            paths: ['node_modules/**/*'],
+          },
+        },
+      })
     });
 
     amplifyApp.addBranch('master', {
       stage: 'PRODUCTION',
-      autoBuild: true
+      autoBuild: false
     });
   }
 }
